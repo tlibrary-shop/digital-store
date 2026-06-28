@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Store - Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .navbar-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .navbar-links a:hover {
+            color: #2563eb;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Main Section */
+        .main {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .btn-detail {
+            padding: 0.5rem 1rem;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn-detail:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Tabs for different pages */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 1rem;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6b7280;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -1.75rem;
+        }
+
+        .tab-btn.active {
+            color: #2563eb;
+            border-bottom-color: #2563eb;
+        }
+
+        /* Form Styles */
+        .form-container {
+            max-width: 400px;
+            margin: 3rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: #374151;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-submit:hover {
+            background-color: #1d4ed8;
+        }
+
+        .form-link {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .form-link a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Product Detail Page */
+        .detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+
+        .detail-image {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-radius: 0.75rem;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+        }
+
+        .detail-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .detail-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-category {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-price-box {
+            background-color: #eff6ff;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-price-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-price {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .detail-description {
+            margin-bottom: 2rem;
+        }
+
+        .detail-description h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .detail-description p {
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .detail-features {
+            background-color: #f0fdf4;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-features p {
+            color: #15803d;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .detail-features .check {
+            font-size: 1.5rem;
+        }
+
+        .detail-buy {
+            width: 100%;
+            padding: 1rem;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 1rem;
+        }
+
+        .detail-buy:hover {
+            background-color: #1d4ed8;
+        }
+
+        .detail-payment-note {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        /* Dashboard */
+        .dashboard-container {
+            margin: 2rem 0;
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #f3f4f6;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.375rem 0.875rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-cancelled {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .detail-container {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar-links {
+                gap: 1rem;
+                font-size: 0.875rem;
+            }
+
+            .hero h1 {
+                font-size: 1.875rem;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+
+            table {
+                font-size: 0.875rem;
+            }
+
+            th, td {
+                padding: 0.75rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">🛍️ Digital Store</a>
+            <div class="navbar-links">
+                <a href="#" onclick="showPage('home')">Beranda</a>
+                <a href="#" onclick="showPage('dashboard')">Dashboard</a>
+                <a href="#" onclick="showPage('login')">Masuk</a>
+                <a href="#" onclick="showPage('register')" class="btn btn-primary">Daftar</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="container">
+                <h1>Toko Digital</h1>
+                <p>Jual dan beli produk digital dengan mudah dan aman</p>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div class="main">
+            <div class="container">
+                <h2 class="section-title">Produk Terbaru</h2>
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="product-image">📄</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Template Website Premium</h3>
+                            <p class="product-description">Template website profesional siap pakai dengan design modern dan responsive</p>
+                            <div class="product-footer">
+                                <span class="product-price">Rp 99.000</span>
+                                <button class="btn-detail" onclick="showPage('detail')">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="product-image">📚</div>
+                        <div class="product-content">
+                            <h3 class="product-title">E-book Belajar React</h3>
+                            <p class="product-description">Panduan lengkap belajar React dari dasar hingga advanced</p>
+                            <div class="product-footer">
+                                <span class="product-price">Rp 49.000</span>
+                                <button class="btn-detail" onclick="showPage('detail')">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card">
+                        <div class="product-image">🎬</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Course Video Desain Grafis</h3>
+                            <p class="product-description">Kursus video lengkap desain grafis dengan Adobe Creative Suite</p>
+                            <div class="product-footer">
+                                <span class="product-price">Rp 199.000</span>
+                                <button class="btn-detail" onclick="showPage('detail')">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card">
+                        <div class="product-image">💻</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Script Website Toko Online</h3>
+                            <p class="product-description">Script PHP siap pakai untuk membuat toko online sendiri</p>
+                            <div class="product-footer">
+                                <span class="product-price">Rp 149.000</span>
+                                <button class="btn-detail" onclick="showPage('detail')">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Page -->
+    <div id="detail" class="page">
+        <div class="container">
+            <a href="#" onclick="showPage('home')" style="color: #2563eb; text-decoration: none; margin: 2rem 0; display: inline-block;">← Kembali ke Beranda</a>
+            
+            <div class="detail-container">
+                <div class="detail-image">📄</div>
+                <div class="detail-info">
+                    <div>
+                        <h1 class="detail-title">Template Website Premium</h1>
+                        <p class="detail-category">Template</p>
+
+                        <div class="detail-price-box">
+                            <p class="detail-price-label">Harga</p>
+                            <p class="detail-price">Rp 99.000</p>
+                        </div>
+
+                        <div class="detail-description">
+                            <h3>Deskripsi</h3>
+                            <p>Template website profesional siap pakai dengan design modern dan responsive. Cocok untuk berbagai jenis bisnis seperti agency, freelancer, toko online, dan lainnya.</p>
+                            <p style="margin-top: 1rem;">Dilengkapi dengan fitur lengkap:</p>
+                            <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                                <li>Responsive design (mobile, tablet, desktop)</li>
+                                <li>Kecepatan loading optimal</li>
+                                <li>SEO friendly</li>
+                                <li>Easy to customize</li>
+                                <li>Cross-browser compatible</li>
+                            </ul>
+                        </div>
+
+                        <div class="detail-features">
+                            <p><span class="check">✓</span> File akan dikirim otomatis setelah pembayaran dikonfirmasi</p>
+                        </div>
+                    </div>
+
+                    <button class="detail-buy">Beli Sekarang</button>
+                    <p class="detail-payment-note">Pembayaran aman melalui Midtrans</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login" class="page">
+        <div class="form-container">
+            <h2 class="form-title">Masuk</h2>
+            <form>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" placeholder="email@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Masukkan password" required>
+                </div>
+                <button type="submit" class="form-submit">Masuk</button>
+                <div class="form-link">
+                    Belum punya akun? <a href="#" onclick="showPage('register')">Daftar di sini</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Page -->
+    <div id="register" class="page">
+        <div class="form-container">
+            <h2 class="form-title">Daftar Akun</h2>
+            <form>
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" class="form-input" placeholder="Nama Anda" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" placeholder="email@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Minimal 6 karakter" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Konfirmasi Password</label>
+                    <input type="password" class="form-input" placeholder="Ulangi password" required>
+                </div>
+                <button type="submit" class="form-submit">Daftar</button>
+                <div class="form-link">
+                    Sudah punya akun? <a href="#" onclick="showPage('login')">Masuk di sini</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboard" class="page">
+        <div class="container">
+            <div class="dashboard-container">
+                <h2 class="dashboard-title">Dashboard Saya</h2>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produk</th>
+                                <th>Harga</th>
+                                <th>Status</th>
+                                <th>Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Template Website Premium</td>
+                                <td>Rp 99.000</td>
+                                <td><span class="status-badge status-completed">✓ Selesai</span></td>
+                                <td>28 Jun 2026</td>
+                            </tr>
+                            <tr>
+                                <td>E-book Belajar React</td>
+                                <td>Rp 49.000</td>
+                                <td><span class="status-badge status-pending">⏱ Menunggu</span></td>
+                                <td>27 Jun 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Course Video Desain Grafis</td>
+                                <td>Rp 199.000</td>
+                                <td><span class="status-badge status-cancelled">✗ Dibatalkan</span></td>
+                                <td>26 Jun 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Script Website Toko Online</td>
+                                <td>Rp 149.000</td>
+                                <td><span class="status-badge status-completed">✓ Selesai</span></td>
+                                <td>25 Jun 2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2026 Digital Store. Semua hak dilindungi.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Platform jualan produk digital dengan sistem pembayaran otomatis dan pengiriman file instant</p>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
